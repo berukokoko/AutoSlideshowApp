@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("UI_PARTS", "ボタンをタップしました");
+                cursor.moveToNext();
             }
         });
 
@@ -87,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    Cursor cursor;
+
     //画像を保存する。
     private void getContentsInfo() {
 
@@ -111,10 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
             ImageView imageView = (ImageView) findViewById(R.id.imageView1);
             imageView.setImageURI(imageUri);
-            ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
-            imageView2.setImageURI(imageUri);
-            ImageView imageView3 = (ImageView) findViewById(R.id.imageView3);
-            imageView3.setImageURI(imageUri);
+
         }while (cursor.moveToNext());
     }
         cursor.close();
