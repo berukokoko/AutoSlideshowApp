@@ -9,18 +9,30 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import java.util.TimerTask;
+
+import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
 
 
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    Cursor cursor;
+
+    Timer mTimer;
+    ImageView imageView1;
+    double mTimerSec = 0.0;
+
+
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +48,32 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("UI_PARTS", "ボタンをタップしました");
-                cursor.moveToNext();
+                if(cursor.moveToNext()){
+                    //インデックスからuriを取ってきてイベージビューに設定する。
+                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                    Long id = cursor.getLong(fieldIndex);
+                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+                    Log.d("ANDROID", "URI : " + imageUri.toString());
+
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+                    imageView.setImageURI(imageUri);
+                }
+               else{
+                    cursor.moveToFirst();
+                    //インデックスからuriを取ってきてイベージビューに設定する。
+                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                    Long id = cursor.getLong(fieldIndex);
+                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+                    Log.d("ANDROID", "URI : " + imageUri.toString());
+
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+                    imageView.setImageURI(imageUri);
+                }
+
             }
         });
 
@@ -45,7 +81,34 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("UI_PARTS", "ボタン2をタップしました");
+
+                mTimerSec = 0.0;
+
+                if(cursor.moveToNext()){
+                    //インデックスからuriを取ってきてイベージビューに設定する。
+                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                    Long id = cursor.getLong(fieldIndex);
+                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+                    Log.d("ANDROID", "URI : " + imageUri.toString());
+
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+                    imageView.setImageURI(imageUri);
+                }
+                else{
+                    cursor.moveToFirst();
+                    //インデックスからuriを取ってきてイベージビューに設定する。
+                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                    Long id = cursor.getLong(fieldIndex);
+                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+                    Log.d("ANDROID", "URI : " + imageUri.toString());
+
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+                    imageView.setImageURI(imageUri);
+                }
             }
         });
 
@@ -53,7 +116,31 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("UI_PARTS", "ボタン3をタップしました");
+                if(cursor.moveToPrevious()){
+                    //インデックスからuriを取ってきてイベージビューに設定する。
+                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                    Long id = cursor.getLong(fieldIndex);
+                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+                    Log.d("ANDROID", "URI : " + imageUri.toString());
+
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+                    imageView.setImageURI(imageUri);
+                }
+                else{
+                    cursor.moveToLast();
+                    //インデックスからuriを取ってきてイベージビューに設定する。
+                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+                    Long id = cursor.getLong(fieldIndex);
+                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+                    Log.d("ANDROID", "URI : " + imageUri.toString());
+
+                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+                    imageView.setImageURI(imageUri);
+                }
             }
         });
 
@@ -73,6 +160,25 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getContentsInfo();
         }
+
+
+
+        // タイマーの作成
+        mTimer = new Timer();
+        // タイマーの始動
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //mTimerSec += 0.1;
+                mTimerSec += 2;
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
+        }, 100, 100);    // 最初に始動させるまで 100ミリ秒、ループの間隔を 100ミリ秒 に設定
     }
 
     @Override
@@ -89,16 +195,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    Cursor cursor ;
+
 
     //画像を保存する。
     private void getContentsInfo() {
 
         // 画像の情報を取得する
         ContentResolver resolver = getContentResolver();
-
-
-            Cursor cursor = resolver.query(
+        cursor = resolver.query(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI, // データの種類
                     null, // 項目(null = 全項目)
                     null, // フィルタ条件(null = フィルタなし)
@@ -106,8 +210,9 @@ public class MainActivity extends AppCompatActivity {
                     null// ソート (null ソートなし)
             );
 
-        if (cursor.moveToFirst()) {
-            do{
+        if (cursor.moveToFirst() ) {
+
+
             int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
             Long id = cursor.getLong(fieldIndex);
             Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
@@ -118,8 +223,11 @@ public class MainActivity extends AppCompatActivity {
             ImageView imageView = (ImageView) findViewById(R.id.imageView1);
             imageView.setImageURI(imageUri);
 
-        }while (cursor.moveToNext());
+
     }
-        cursor.close();
+
     }
+
+
+
 }
