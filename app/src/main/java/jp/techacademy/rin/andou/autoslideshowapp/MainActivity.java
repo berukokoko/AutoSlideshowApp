@@ -48,32 +48,7 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(cursor.moveToNext()){
-                    //インデックスからuriを取ってきてイベージビューに設定する。
-                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                    Long id = cursor.getLong(fieldIndex);
-                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-
-                    Log.d("ANDROID", "URI : " + imageUri.toString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    imageView.setImageURI(imageUri);
-                }
-               else{
-                    cursor.moveToFirst();
-                    //インデックスからuriを取ってきてイベージビューに設定する。
-                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                    Long id = cursor.getLong(fieldIndex);
-                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-
-                    Log.d("ANDROID", "URI : " + imageUri.toString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    imageView.setImageURI(imageUri);
-                }
-
+                moveon();
             }
         });
 
@@ -81,34 +56,7 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                mTimerSec = 0.0;
-
-                if(cursor.moveToNext()){
-                    //インデックスからuriを取ってきてイベージビューに設定する。
-                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                    Long id = cursor.getLong(fieldIndex);
-                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-
-                    Log.d("ANDROID", "URI : " + imageUri.toString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    imageView.setImageURI(imageUri);
-                }
-                else{
-                    cursor.moveToFirst();
-                    //インデックスからuriを取ってきてイベージビューに設定する。
-                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                    Long id = cursor.getLong(fieldIndex);
-                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-
-                    Log.d("ANDROID", "URI : " + imageUri.toString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    imageView.setImageURI(imageUri);
-                }
+                playback();
             }
         });
 
@@ -116,33 +64,11 @@ public class MainActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(cursor.moveToPrevious()){
-                    //インデックスからuriを取ってきてイベージビューに設定する。
-                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                    Long id = cursor.getLong(fieldIndex);
-                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-
-                    Log.d("ANDROID", "URI : " + imageUri.toString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    imageView.setImageURI(imageUri);
-                }
-                else{
-                    cursor.moveToLast();
-                    //インデックスからuriを取ってきてイベージビューに設定する。
-                    int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
-                    Long id = cursor.getLong(fieldIndex);
-                    Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-
-                    Log.d("ANDROID", "URI : " + imageUri.toString());
-
-                    ImageView imageView = (ImageView) findViewById(R.id.imageView1);
-                    imageView.setImageURI(imageUri);
-                }
+                Restart();
             }
         });
+
+
 
 
 
@@ -227,6 +153,100 @@ public class MainActivity extends AppCompatActivity {
     }
 
     }
+
+
+    //ボタン1メソッド
+    public void moveon(){
+        if(cursor.moveToNext()){
+            //インデックスからuriを取ってきてイベージビューに設定する。
+            int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+            Long id = cursor.getLong(fieldIndex);
+            Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+            Log.d("ANDROID", "URI : " + imageUri.toString());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            imageView.setImageURI(imageUri);
+        }
+        else{
+            cursor.moveToFirst();
+            //インデックスからuriを取ってきてイベージビューに設定する。
+            int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+            Long id = cursor.getLong(fieldIndex);
+            Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+            Log.d("ANDROID", "URI : " + imageUri.toString());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            imageView.setImageURI(imageUri);
+        }
+
+    }
+
+
+    //ボタン2メソッド
+    public void playback(){
+
+        if(cursor.moveToNext()){
+            //インデックスからuriを取ってきてイベージビューに設定する。
+            int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+            Long id = cursor.getLong(fieldIndex);
+            Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+            Log.d("ANDROID", "URI : " + imageUri.toString());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            imageView.setImageURI(imageUri);
+        }
+        else{
+            cursor.moveToFirst();
+            //インデックスからuriを取ってきてイベージビューに設定する。
+            int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+            Long id = cursor.getLong(fieldIndex);
+            Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+            Log.d("ANDROID", "URI : " + imageUri.toString());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            imageView.setImageURI(imageUri);
+        }
+    }
+
+
+    //ボタン3メソッド
+    public void Restart(){
+        if(cursor.moveToPrevious()){
+            //インデックスからuriを取ってきてイベージビューに設定する。
+            int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+            Long id = cursor.getLong(fieldIndex);
+            Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+            Log.d("ANDROID", "URI : " + imageUri.toString());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            imageView.setImageURI(imageUri);
+        }
+        else{
+            cursor.moveToLast();
+            //インデックスからuriを取ってきてイベージビューに設定する。
+            int fieldIndex = cursor.getColumnIndex(MediaStore.Images.Media._ID);
+            Long id = cursor.getLong(fieldIndex);
+            Uri imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+
+
+            Log.d("ANDROID", "URI : " + imageUri.toString());
+
+            ImageView imageView = (ImageView) findViewById(R.id.imageView1);
+            imageView.setImageURI(imageUri);
+        }
+    }
+
+
 
 
 
