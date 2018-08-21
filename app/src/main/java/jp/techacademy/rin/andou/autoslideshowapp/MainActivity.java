@@ -22,14 +22,11 @@ import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     Cursor cursor;
 
     Timer mTimer;
     ImageView imageView1;
-    double mTimerSec = 0.0;
 
 
     Handler mHandler = new Handler();
@@ -41,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         //findViewByIdで結びつける。
         Button button1 = (Button) findViewById(R.id.button1);
-        Button button2 = (Button) findViewById(R.id.button2);
+        final Button button2 = (Button) findViewById(R.id.button2);
         Button button3 = (Button) findViewById(R.id.button3);
 
         //ボタン1がクリックされたら
@@ -56,9 +53,38 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playback();
+                if(mTimer == null){
+                    // タイマーの作成
+                    mTimer = new Timer();
+                    // タイマーの始動
+                    mTimer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playback();
+                                }
+                            });
+                        }
+                    }, 2000, 2000);    // 最初に始動させるまで 100ミリ秒、ループの間隔を 100ミリ秒 に設定
+                    button2.setText("停止");
+                    notClick();
+
+                }else{
+                    mTimer.cancel();
+                    mTimer = null;
+                    button2.setText("再生");
+                    okClick();
+                }
+
             }
+
         });
+
+
+
 
         //ボタン3がクリックされたら
         button3.setOnClickListener(new View.OnClickListener() {
@@ -89,22 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // タイマーの作成
-        mTimer = new Timer();
-        // タイマーの始動
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //mTimerSec += 0.1;
-                mTimerSec += 2;
 
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
-            }
-        }, 100, 100);    // 最初に始動させるまで 100ミリ秒、ループの間隔を 100ミリ秒 に設定
     }
 
     @Override
@@ -155,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //ボタン1メソッド
+    //ボタン1メソッド　進む
     public void moveon(){
         if(cursor.moveToNext()){
             //インデックスからuriを取ってきてイベージビューに設定する。
@@ -186,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //ボタン2メソッド
+    //ボタン2メソッド　再生
     public void playback(){
 
         if(cursor.moveToNext()){
@@ -217,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //ボタン3メソッド
+    //ボタン3メソッド　再開
     public void Restart(){
         if(cursor.moveToPrevious()){
             //インデックスからuriを取ってきてイベージビューに設定する。
@@ -248,6 +259,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    //ボタンがクリックできない。
+    public void notClick(){
+        Button button1 = (Button) findViewById(R.id.button1);
+        button1.setEnabled(false);
+        Button button3 = (Button) findViewById(R.id.button3);
+        button3.setEnabled(false);
+    }
 
+    public void okClick(){
+        Button button1 = (Button) findViewById(R.id.button1);
+        button1.setEnabled(true);
+        Button button3 = (Button) findViewById(R.id.button3);
+        button3.setEnabled(true);
+    }
 
 }
