@@ -30,14 +30,14 @@
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="再生"
+        android:text="再生/停止"
         android:id="@+id/button2"
         android:layout_weight="1" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="再開"
+            android:text="戻る"
             android:id="@+id/button3"
             android:layout_weight="1" />
 

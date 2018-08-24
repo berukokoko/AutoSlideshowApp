@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getContentsInfo();
                 }
+                else {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_CODE);
+                }
                 break;
             default:
                 break;
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //ボタン1メソッド　進む
+    //ボタン1メソッド　
     public void moveon(){
         if(cursor.moveToNext()){
             //インデックスからuriを取ってきてイベージビューに設定する。
@@ -197,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //ボタン2メソッド　再生
+    //ボタン2メソッド　
     public void playback(){
 
         if(cursor.moveToNext()){
@@ -228,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //ボタン3メソッド　再開
+    //ボタン3メソッド　
     public void Restart(){
         if(cursor.moveToPrevious()){
             //インデックスからuriを取ってきてイベージビューに設定する。
